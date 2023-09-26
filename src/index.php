@@ -2,12 +2,28 @@
 
 $srcFile = $argv[1];
 
-function getFile($src) {
-  if($src) {
-    $content = file("$src");
+function verifyFile($source) 
+{
+  if (is_file($source)) {
+    return $source;
   } else {
-    echo "Erro: Arquivo passado não encontrado";
+    throw new Exception('ERRO: Arquivo informado não encontrado.');
   }
-
-  return $content;
 }
+
+function getFile($source) 
+{
+  try {
+    $source = verifyFile($source);
+    $content = file_get_contents($source);
+    return $content;
+  } catch (Exception $error) {
+    return $error->getMessage() . PHP_EOL;
+  }
+}
+
+function extractLinks($contentFile) {
+
+}
+
+echo getFile($srcFile) . PHP_EOL;

@@ -2,19 +2,24 @@
 
 $srcFile = $argv[1];
 
-function verifyFile($source) 
+/**
+ * @throws Exception
+ */
+function getFileName($source) 
 {
   if (is_file($source)) {
     return $source;
+  } elseif (is_dir($source)) {
+    // algoritmo para retornar um array com o nome dos arquivos da pasta
   } else {
     throw new Exception('ERRO: Arquivo informado não encontrado.');
   }
 }
 
-function getFile($source) 
+function getContentFile($source) 
 {
   try {
-    $source = verifyFile($source);
+    $source = getFileName($source);
     $content = file_get_contents($source);
     return $content;
   } catch (Exception $error) {
@@ -26,4 +31,4 @@ function extractLinks($contentFile) {
 
 }
 
-echo getFile($srcFile) . PHP_EOL;
+echo getFileName($srcFile) . PHP_EOL;

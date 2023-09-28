@@ -1,5 +1,6 @@
 <?php
 
+// TODO implementar captura de erro caso o usuário não passe o argumento necessário
 $srcFile = $argv[1];
 
 /**
@@ -36,16 +37,21 @@ function getContentFile($source): array|string
   }
 }
 
-function extractLinks($contentFile) {
-
+function extractLinks($contentFile): array
+{
+    preg_match_all('/https?:\/\/[^\s\/$.?#].\S*/', $contentFile, $links);
+    return $links;
 }
 
 $result = getContentFile($srcFile);
 
 if (gettype($result) === 'array') {
     foreach ($result as $fileName => $content) {
-        echo $fileName . PHP_EOL . $content . PHP_EOL;
+        $arr = extractLinks($content);
+        echo $fileName . PHP_EOL;
+        var_dump($arr);
     }
 } else {
-    echo $result;
+    $arr = extractLinks($result);
+    var_dump($arr);
 }
